@@ -1,0 +1,230 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail</title>
+    {% include "public_3.html" %}
+</head>
+<body>
+{% include "public_1.html" %}
+<div class="row">
+    <div class="col">
+        <h4>新建变量</h4>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <form class="col" action="/variable_update" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-2">
+                <h6>名称</h6>
+            </div>
+            <div class="col">
+                <input type="text" value="{{ variabledatail.name }}" name="name">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">
+                <h6>描述</h6>
+            </div>
+            <div class="col">
+                <input type="text" value="{{ variabledatail.desc }}" name="desc">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">
+                <h6>类别</h6>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col-2">
+                        <label>HOST <input type="radio" value="HOST" name="type"></label>
+                    </div>
+                    <div class="col-2">
+                        <label>接口返回值 <input type="radio" value="接口返回值" id="opener" name="type"></label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+
+        <div class="row">
+            <div class="col-2">
+                <h6>值</h6>
+            </div>
+            <div class="col">
+                <input type="text" value="{{ variabledatail.value }}" name="value">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">
+                <h6>标签</h6>
+            </div>
+            <div class="col">
+                <input type="text" value="{{ variabledatail.mark }}" name="mark">
+            </div>
+        </div>
+
+
+        <input type="text" value="{{ variabledatail.id }}" name="id" hidden>
+
+
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <input type="submit" class="btn btn-dark" value="保存">
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% include "public_2.html" %}
+
+<div id="dialog" title="选择接口窗口" class="myhidden">
+    <div class="row">
+        <div class="col">
+            <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search">
+            </form>
+        </div>
+        <div class="col">
+            <a class="btn btn-dark" href="/api_new" style="color: white">新建接口</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row" style="height: 150px;overflow-y: scroll;">
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">名称</th>
+                <th scope="col">URL</th>
+                <th scope="col">请求方式</th>
+                <th scope="col">请求参数</th>
+                <th scope="col">期望值</th>
+                <th scope="col">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+
+
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                <td>Mark</td>
+                <td><input type="checkbox"></td>
+            </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="row">
+        <h8>已选择接口</h8>
+    </div>
+    <div class="row" style="height: 100px;overflow-y: scroll;">
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">名称</th>
+                <th scope="col">URL</th>
+                <th scope="col">请求方式</th>
+                <th scope="col">请求参数</th>
+                <th scope="col">期望值</th>
+                <th scope="col">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                <td>Mark</td>
+                <td>
+                    <button class="btn btn-dark">运行</button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Thornton</td>
+                <td>@fat</td>
+                <td>Otto</td>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>
+                    <button class="btn btn-dark">运行</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-2">
+            <h8>返回值：</h8>
+        </div>
+        <div class="col input-group">
+            <input type="text" class="form-control">
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-2">
+            <h8>获取值：</h8>
+        </div>
+        <div class="col input-group">
+            <input type="text" class="form-control">
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-dark btn-block">确定</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#dialog").dialog({autoOpen: false});
+    $("#dialog").dialog("option", "width", 600);
+    $("#opener").click(function () {
+        $("#dialog").removeClass("myhidden");
+        $("#dialog").dialog("open");
+    });
+    var ttt = "{{ variabledatail.type }}";
+
+    $("input:radio").each(function () {
+        if (this.value == ttt) {
+            $(this).attr("checked","checked");
+        }
+    });
+</script>
+</body>
+</html>

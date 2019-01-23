@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "public_3.html"%}
+</head>
+<body>
+{% include "public_1.html"%}
+
+            <div class="row" >
+                <div class="col-9">
+                </div>
+                <div class="col">
+                    <a class="btn btn-dark" href="variable_new" style="color: white">新建变量</a>
+                </div>
+                <div class="col">
+                    <form class="form-inline my-2 my-md-0">
+                        <input class="form-control" type="text" placeholder="Search">
+                    </form>
+                </div>
+
+            </div>
+            <hr>
+
+            <div class="row" >
+                <div class="col" style="height: 400px;overflow-y: scroll;">
+                    <table class="table table-dark" style="">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">名称</th>
+                            <th scope="col">类别</th>
+                            <th scope="col">标签</th>
+                            <th scope="col">项目</th>
+                            <th scope="col">创建者</th>
+                            <th scope="col">创建时间</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for v in vlist %}
+                                 <tr>
+                                    <th scope="row">{{ v.index }}</th>
+                                    <td>{{ v.name }}</td>
+                                    <td>{{ v.type }}</td>
+                                    <td>{{ v.mark }}</td>
+                                    <td>{{ v.pname }}</td>
+                                    <td>{{ v.creator }}</td>
+                                    <td>{{ v.timestamp }}</td>
+                                    <td>
+                                        <button class="btn btn-info" onclick="todeatil({{ v.index }})">编辑</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+{% include "public_2.html"%}
+
+<script>
+
+    function todeatil(i) {
+        window.location.replace("variable_detail/"+i.toString());
+    }
+
+</script>
+
+</body>
+</html>

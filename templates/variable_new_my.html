@@ -1,0 +1,251 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New</title>
+    {% include "public_3.html" %}
+</head>
+<body>
+{% include "public_1.html" %}
+<div class="row">
+    <div class="col">
+        <h4>新建变量</h4>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <form class="col" action="variable_new" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-2">
+                <h6>名称</h6>
+            </div>
+            <div class="col">
+                <input type="text" name="name" id="name">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">
+                <h6>描述</h6>
+            </div>
+            <div class="col">
+                <input type="text" name="desc">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">
+                <h6>类别</h6>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col-2">
+                        <label>HOST <input type="radio" value="HOST" name="type"></label>
+                    </div>
+                    <div class="col-2">
+                        <label>接口返回值 <input type="radio" value="接口返回值" id="opener" name="type"></label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">
+                <h6>值</h6>
+            </div>
+            <div class="col">
+                <input type="text" name="value" id="value">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">
+                <h6>标签</h6>
+            </div>
+            <div class="col">
+                <input type="text" name="mark" value="无">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <input type="submit" class="btn btn-dark" value="保存">
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% include "public_2.html" %}
+
+<div id="dialog" title="选择接口窗口">
+    <div class="row">
+        <div class="col">
+            <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search">
+            </form>
+        </div>
+        <div class="col">
+            <a class="btn btn-dark" href="api_new" style="color: white">新建接口</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row" style="height: 150px;overflow-y: scroll;">
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">名称</th>
+                <th scope="col">URL</th>
+                <th scope="col">请求方式</th>
+                <th scope="col">请求参数</th>
+                <th scope="col">期望值</th>
+                <th scope="col">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for i in apilist %}
+
+                <tr id="tr_{{ i.index }}">
+                    <th scope="row">{{ i.index }}</th>
+                    <td id="td_name">{{ i.name }}</td>
+                    <td id="td_path">{{ i.path }}</td>
+                    <td id="td_request_type">{{ i.request_type }}</td>
+                    <td id="td_requestparam">{{ i.requestparam }}</td>
+                    <td id="td_expectres">{{ i.expectres }}</td>
+                    <td><input type="checkbox" onclick="mycheckbox({{ i.index }})" id="check_{{ i.index }}"></td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="row">
+        <h8>已选择接口</h8>
+    </div>
+    <div class="row" style="height: 150px;overflow-y: scroll;">
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">名称</th>
+                <th scope="col">URL</th>
+                <th scope="col">请求方式</th>
+                <th scope="col">请求参数</th>
+                <th scope="col">期望值</th>
+                <th scope="col">操作</th>
+            </tr>
+            </thead>
+            <tbody id="mytbody">
+
+
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-2">
+            <h8>返回值：</h8>
+        </div>
+        <div class="col input-group">
+            <input type="text" class="form-control" id="returnval">
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-2">
+            <h8>获取值：</h8>
+        </div>
+        <div class="col input-group">
+            <input type="text" class="form-control" id="resultval">
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-dark btn-block" onclick="doset()">确定</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#dialog").dialog({autoOpen: false});
+    $("#dialog").dialog("option", "width", 700);
+    $("#opener").click(function () {
+        $("#dialog").dialog("open");
+    });
+
+    function mycheckbox(id) {
+
+        if ($("#check_" + id.toString()).prop('checked')) {
+            var td_name = $("#tr_" + id.toString()).find("#td_name").html();
+            var td_path = $("#tr_" + id.toString()).find("#td_path").html();
+            var td_request_type = $("#tr_" + id.toString()).find("#td_request_type").html();
+            var td_requestparam = $("#tr_" + id.toString()).find("#td_requestparam").html();
+            var td_expectres = $("#tr_" + id.toString()).find("#td_expectres").html();
+
+            $("#mytbody").append("<tr id=tro_" + id.toString() + "><th scope='row'>" + id.toString() + "</th><td>" + td_name + "</td><td>" + td_path + "</td><td>" + td_request_type + "</td><td>" + td_requestparam + "</td><td>" + td_expectres + "</td><td><button class='btn btn-dark' onclick='dorun(" + id.toString() + ")'>运行</button></td></tr>");
+        } else {
+            $("#tro_" + id.toString()).remove();
+        }
+        ;
+
+    }
+
+    function dorun(id) {
+        var td_name = $("#tr_" + id.toString()).find("#td_name").html();
+        var td_path = $("#tr_" + id.toString()).find("#td_path").html();
+        var td_request_type = $("#tr_" + id.toString()).find("#td_request_type").html();
+        var td_requestparam = $("#tr_" + id.toString()).find("#td_requestparam").html();
+        var td_expectres = $("#tr_" + id.toString()).find("#td_expectres").html();
+
+
+        if (td_request_type === "GET") {
+
+            $.get(td_path).done(function (data) {
+                $("#returnval").val(data);
+            });
+
+        } else if (td_request_type === "POST") {
+
+            var row = td_requestparam;
+            $.post(td_path, row).done(function (data) {
+                $("#returnval").val(data);
+            });
+        }
+
+    };
+
+    function doset() {
+
+         var obj = $.parseJSON($("#returnval").val());
+{#         alert(obj[$("#resultval").val()]);#}
+
+         $("#name").val($("#resultval").val());
+         $("#value").val(obj[$("#resultval").val()]);
+
+
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "public_3.html"%}
+</head>
+<body>
+{% include "public_1.html" %}
+<div class="row">
+    <div class="col">
+        <h4>创建接口</h4>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <form class="col" action="api_new" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-2">接口名称</div>
+            <div class="col input-group input-group-lg">
+                <input type="text" name="name" class="form-control">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">协议类型</div>
+            <div class="col">
+                <select class="btn-dark" name="protocol_type">
+                    <option selected value="HTTPS">HTTPS</option>
+                    <option value="HTTP">HTTP</option>
+                </select>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">请求类型</div>
+            <div class="col">
+                <select class="btn-dark" name="request_type">
+                    <option selected value="GET">GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="DELETE">DELETE</option>
+                    <option value="HEAD">HEAD</option>
+                    <option value="PATCH">PATCH</option>
+                </select>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">URL</div>
+            <div class="col input-group input-group-lg">
+                <input type="text" name="path" class="form-control">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">描述</div>
+            <div class="col input-group input-group-lg">
+                <input type="text" name="desc" class="form-control">
+            </div>
+        </div>
+
+        <hr>
+
+{#        <div class="row">#}
+{#            <div class="col-2">业务分组</div>#}
+{#            <div class="col">#}
+{#                <select class="btn-dark" name="ywfz">#}
+{#                    <option selected value="默认分组">默认分组</option>#}
+{#                    <option value="分组1">分组1</option>#}
+{#                </select>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <hr>#}
+
+
+        <div class="row">
+            <div class="col-2">负责人</div>
+            <div class="col">
+                <select class="btn-dark" name="fzr">
+
+                    {% for r in responsible_list %}
+                        <option selected value="{{ r }}">{{ r }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">期望值</div>
+            <div class="col input-group input-group-lg">
+                <input type="text" name="expectres" class="form-control">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-2">请求参数</div>
+            <div class="col input-group input-group-lg">
+                <input type="text" name="requestparam" class="form-control">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <input type="submit" value="提交" class="btn-dark btn btn btn-block">
+            </div>
+        </div>
+
+    </form>
+</div>
+
+{% include "public_2.html" %}
+</body>
+</html>

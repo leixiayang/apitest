@@ -1,0 +1,280 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "public_3.html" %}
+    <link href="{% static "css/simple-donut.css" %}" rel="stylesheet">
+
+</head>
+<body>
+
+{% include "public_1.html" %}
+
+<div class="row">
+    <div class="col">
+        <h4>case数: {{ testsuitlist.totle }}</h4>
+    </div>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <h4>概述</h4>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+
+                            <div class="col-4"><label>任务名称 :</label></div>
+                            <div class="col"><label>{{ testsuitlist.name }}</label></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-4"><label>执行结果</label></div>
+                            <div class="col"><label></label></div>
+
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+
+                            <div class="col-4"><label>触发者</label></div>
+                            <div class="col"><label>{{ testsuitlist.runner }}</label></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+
+                            <div class="col-4"><label>运行环境</label></div>
+                            <div class="col"><label></label></div>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+
+                            <div class="col-4"><label>启动时间</label></div>
+                            <div class="col"><label>{{ testsuitlist.start_time }}</label></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+
+                            <div class="col-4"><label>结束时间</label></div>
+                            <div class="col"><label>{{ testsuitlist.end_time }}</label></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+
+                            <div class="col-4"><label>耗时</label></div>
+                            <div class="col"><label>{{ testsuitlist.time }}</label></div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="row">
+
+                            <div class="col-4"><label></label></div>
+                            <div class="col"><label></label></div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <h5>结果汇总</h5>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-4">
+                <div class="row">
+
+                    <div id="specificChart" class="donut-size">
+                        <div class="pie-wrapper">
+                            <span class="label">
+                              <span class="num">0</span><span class="smaller">%</span>
+                            </span>
+                            <div class="pie">
+                                <div class="left-side half-circle"></div>
+                                <div class="right-side half-circle"></div>
+                            </div>
+                            <div class="shadow"></div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <h4>通过率</h4>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">总用例数:</div>
+                    <div class="col">{{ testsuitlist.totle }}</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">passed:</div>
+                    <div class="col">{{ testsuitlist.passednum }}</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">Failed:</div>
+                    <div class="col">{{ testsuitlist.failednum }}</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">Skipped:</div>
+                    <div class="col">{{ testsuitlist.skippednum }}</div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">Not Run:</div>
+                    <div class="col">0</div>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <h5>结果占比</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="donutchart" >
+                    <tr>
+                        <th>sortOrder</th>
+                        <th>value</th>
+                        <th>color</th>
+                        <th>description</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>{{ testsuitlist.passednum }}</td>
+                        <td>red</td>
+                        <td>passed</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>{{ testsuitlist.failednum }}</td>
+                        <td>blue</td>
+                        <td>Failed</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>{{ testsuitlist.skippednum }}</td>
+                        <td>green</td>
+                        <td>Skipped</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>0</td>
+                        <td>black</td>
+                        <td>Not Run</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col">
+        <div class="row">
+            <div class="col"><h4>质量趋势</h4></div>
+        </div>
+        <div class="row">
+            <div class="col"><h4>this is a pic</h4></div>
+        </div>
+    </div>
+</div>
+
+{% include "public_2.html" %}
+
+<script src="{% static "js/jquery.chart.js" %}"></script>
+
+<script>
+
+
+    $(function () {
+        if (!(/^\?noconvert/gi).test(location.search))
+            $(".donutchart").donutChart().css("border", "solid 1px black");
+
+    });
+
+    function updateDonutChart(el, percent, donut) {
+        percent = Math.round(percent);
+        if (percent > 100) {
+            percent = 100;
+        } else if (percent < 0) {
+            percent = 0;
+        }
+        var deg = Math.round(360 * (percent / 100));
+
+        if (percent > 50) {
+            $(el + ' .pie').css('clip', 'rect(auto, auto, auto, auto)');
+            $(el + ' .right-side').css('transform', 'rotate(180deg)');
+        } else {
+            $(el + ' .pie').css('clip', 'rect(0, 1em, 1em, 0.5em)');
+            $(el + ' .right-side').css('transform', 'rotate(0deg)');
+        }
+        if (donut) {
+            $(el + ' .right-side').css('border-width', '0.1em');
+            $(el + ' .left-side').css('border-width', '0.1em');
+            $(el + ' .shadow').css('border-width', '0.1em');
+        } else {
+            $(el + ' .right-side').css('border-width', '0.5em');
+            $(el + ' .left-side').css('border-width', '0.5em');
+            $(el + ' .shadow').css('border-width', '0.5em');
+        }
+        $(el + ' .num').text(percent);
+        $(el + ' .left-side').css('transform', 'rotate(' + deg + 'deg)');
+    }
+
+    updateDonutChart('#specificChart', {{ testsuitlist.precent }}, true);
+</script>
+
+</body>
+</html>

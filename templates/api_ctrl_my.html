@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "public_3.html"%}
+</head>
+<body>
+
+{% include "public_1.html" %}
+
+<div class="row">
+    <div class="col-9">
+    </div>
+    <div class="col">
+        <a class="btn btn-dark" href="api_new" style="color: white">新建接口</a>
+    </div>
+    <div class="col">
+        <form class="form-inline my-2 my-md-0">
+            <input class="form-control" type="text" placeholder="Search">
+        </form>
+    </div>
+
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="col" style="height: 400px;overflow-y: scroll;">
+        <table class="table table-dark" style="">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">名称</th>
+                <th scope="col">URL</th>
+                <th scope="col">请求方式</th>
+{#                <th scope="col">分组</th>#}
+                <th scope="col">状态</th>
+                <th scope="col">负责人</th>
+                <th scope="col">创建时间</th>
+                <th scope="col">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for d in itstatementlist %}
+
+                <tr>
+                    <th scope="row">{{ d.index }}</th>
+                    <td>{{ d.name }}</td>
+                    <td>{{ d.path }}</td>
+                    <td>{{ d.request_type }}</td>
+                    <td>{{ d.status }}</td>
+                    <td>{{ d.responsible }}</td>
+                    <td>{{ d.timestamp }}</td>
+                    <td>
+                        <button class="btn btn-info" onclick="todeatil({{ d.index }})">编辑</button>
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% include "public_2.html" %}
+
+<script>
+
+    function todeatil(i) {
+        window.location.replace("api_detail/"+i.toString());
+    }
+
+</script>
+
+</body>
+</html>

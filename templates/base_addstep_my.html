@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "public_3.html"%}
+</head>
+<body>
+{% include "public_1.html" %}
+
+<div class="row">
+    <input value="{{ tlist }}" id="run_value" hidden>
+    <table class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">步骤名称</th>
+            <th scope="col">接口</th>
+            <th scope="col">请求方式</th>
+            <th scope="col">请求参数</th>
+            <th scope="col">期望值</th>
+            <th scope="col">地址</th>
+            <th scope="col">操作</th>
+        </tr>
+        </thead>
+        <tbody id="table_list">
+
+        {% for l in tlist %}
+        <tr class="td_{{ l.index }}">
+            <td>{{ l.index }}</td>
+            <td>{{ l.name }}</td>
+            <td>{{ l.apiname }}</td>
+            <td>{{ l.request_type }}</td>
+            <td>{{ l.requestparam }}</td>
+            <td>{{ l.expectres }}</td>
+            <td>{{ l.path }}</td>
+            <td>
+                <button class="btn btn-info" onclick="runsingletest('td_{{ l.index }}')">执行</button>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+
+
+        </tbody>
+
+    </table>
+</div>
+<div class="row">
+    <button id="opener" type="button" class="btn btn-secondary btn-sm btn-block">添加步骤</button>
+</div>
+
+
+{% include "public_2.html" %}
+
+
+<div id="dialog" title="选择接口窗口" class="myhidden">
+    <div class="row">
+        <div class="col">
+            <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search">
+            </form>
+        </div>
+        <div class="col">
+            <a class="btn btn-dark" href="/api_new" style="color: white">新建接口</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row" style="height: 150px;overflow-y: scroll;">
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">名称</th>
+                <th scope="col">URL</th>
+                <th scope="col">请求方式</th>
+                <th scope="col">请求参数</th>
+                <th scope="col">期望值</th>
+                <th scope="col">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for i in apilist %}
+
+                <tr id="tr_{{ i.index }}">
+                    <th scope="row">{{ i.index }}</th>
+                    <td id="td_name">{{ i.name }}</td>
+                    <td id="td_path">{{ i.path }}</td>
+                    <td id="td_request_type">{{ i.request_type }}</td>
+                    <td id="td_requestparam">{{ i.requestparam }}</td>
+                    <td id="td_expectres">{{ i.expectres }}</td>
+                    <td><input type="checkbox" onclick="mycheckbox({{ i.index }})" id="check_{{ i.index }}"></td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="row">
+        <h8>已选择接口</h8>
+    </div>
+    <div class="row" style="height: 150px;overflow-y: scroll;">
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">名称</th>
+                <th scope="col">URL</th>
+                <th scope="col">请求方式</th>
+                <th scope="col">请求参数</th>
+                <th scope="col">期望值</th>
+{#                <th scope="col">操作</th>#}
+            </tr>
+            </thead>
+            <tbody id="mytbody">
+
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-2">
+            <h8>步骤名称：</h8>
+        </div>
+        <div class="col input-group">
+            <input type="text" class="form-control" id="stepname">
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-dark btn-block" onclick="addsteps()">确定</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#dialog").dialog({autoOpen: false});
+    $("#dialog").dialog("option", "width", 700);
+    $("#opener").click(function () {
+        $("#dialog").removeClass("myhidden");
+        $("#dialog").dialog("open");
+    });
+
+     function mycheckbox(id) {
+
+        if ($("#check_" + id.toString()).prop('checked')) {
+            $("#mytbody").empty();
+
+            var td_name = $("#tr_" + id.toString()).find("#td_name").html();
+            var td_path = $("#tr_" + id.toString()).find("#td_path").html();
+            var td_request_type = $("#tr_" + id.toString()).find("#td_request_type").html();
+            var td_requestparam = $("#tr_" + id.toString()).find("#td_requestparam").html();
+            var td_expectres = $("#tr_" + id.toString()).find("#td_expectres").html();
+
+            $("#mytbody").append("<tr id=tro_" + id.toString() + "><th scope='row' id='myth'>" + id.toString() + "</th><td>" + td_name + "</td><td>" + td_path + "</td><td>" + td_request_type + "</td><td>" + td_requestparam + "</td><td>" + td_expectres + "</td></tr>");
+
+        } else {
+            $("#tro_" + id.toString()).remove();
+        };
+
+    }
+
+    function addsteps() {
+        var tid = "{{ tid }}";
+
+        var aid = $("#myth").html();
+{#        alert(aid);#}
+        var stepname = $("#stepname").val();
+
+        var row = {"tid": tid, "aid": aid, "stepname": stepname};
+        $.post("/addtestcasestep", row).done(function (data) {
+            alert(data);
+            window.location.reload();
+        });
+
+    }
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,669 @@
+{% load static %}
+</div>
+
+</div>
+
+</div>
+
+<div id="dialog_new" title="新建项目" class="myhidden">
+    {#    <form class="row" method="post" action="new_project">#}
+    <div class="row">
+
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h6>项目名称</h6>
+                </div>
+                <div class="col">
+                    <input type="text" name="name" id="name">
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col">
+                    <h6>项目描述</h6>
+                </div>
+                <div class="col">
+                    <input type="text" name="desc" id="desc">
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col">
+                    <button class="btn-dark btn btn-block" id="newbtn" onclick="newProject()">提交</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {#    </form>#}
+</div>
+
+
+<div id="dialog_ylj" title="新建测试集" class="myhidden">
+    <div class="row">
+        <div class="col">
+
+            <div class="row">
+
+                <div class="col">
+
+                    <div class="row">
+                        <div class="col">
+                            <h6>名称</h6>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="name" id="name1">
+                        </div>
+                    </div>
+                    <hr>
+
+                    {#                    <div class="row">#}
+                    {#                        <div class="col">#}
+                    {#                            <h6>key</h6>#}
+                    {#                        </div>#}
+                    {#                        <div class="col">#}
+                    {#                            <input type="text" name="key" id="key">#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+
+                    {#                    <hr>#}
+
+                    <div class="row">
+                        <div class="col">
+                            <h6>层级</h6>
+                        </div>
+                        <div class="col">
+                            <select name="level" onchange="getlevel()" id="level">
+                                <option value="999">请选择父级</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            <h6>父级</h6>
+                        </div>
+                        <div class="col">
+                            <select name="parent" id="parent">
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn-dark btn btn-block" onclick="newylj()">提交</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="dialog_testcase" title="新建测试" class="myhidden">
+    <div class="row">
+        <div class="col">
+
+            <div class="row">
+
+                <div class="col">
+
+                    <div class="row">
+                        <div class="col">
+                            <h6>名称</h6>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="name2" id="name2">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            <h6>标签</h6>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="tags" id="tags">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            <h6>目录</h6>
+                        </div>
+                        <div class="col">
+                            <select name="tree" id="tree">
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            <h6>负责人</h6>
+                        </div>
+                        <div class="col">
+                            <select name="responsible" id="responsible">
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn-dark btn btn-block" onclick="newtestcase()">提交</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{#<input hidden>#}
+
+<div id="dialog_testsuit" title="测试用例" class="myhidden">
+    <div class="row">
+        <div class="col">
+
+            <div class="row">
+
+                <div class="col">
+
+                    {#                    <div class="row">#}
+                    {#                        <div class="col">#}
+                    {#                            <h6>名称</h6>#}
+                    {#                        </div>#}
+                    {#                        <div class="col">#}
+                    {#                            <input type="text" name="testsuit_name" id="testsuit_name">#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            <h6>选择要执行的用例</h6>
+                        </div>
+                        <div class="col">
+                            <select id="testsuit_case">
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn-dark btn btn-block" onclick="runtestsuit()">跳转后点击测试执行</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="dialog_runtest" title="执行用例" class="myhidden">
+    <div class="row">
+        <div class="col">
+
+            <div class="row">
+
+                <div class="col">
+
+                    <div class="row">
+                        <div class="col">
+                            <h6>名称</h6>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="name3" id="name3">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn-dark btn btn-block" onclick="runsuit()">提交</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{#<script src="{% static "js/jquery.1.12.4.min.js" %}"></script>#}
+<script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
+<script src="{% static "js/jquery.cookie.js" %}"></script>
+
+<script src="{% static "js/tether.min.js" %}"></script>
+<script src="{% static "js/popper.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+
+<script src="{% static "js/jquery-ui.js" %}"></script>
+
+<script>
+    $("#dialog_new").dialog({autoOpen: false});
+    $("#dialog_new").dialog("option", "width", 600);
+    $("#opener_new").click(function () {
+        $("#dialog_new").removeClass("myhidden");
+        $("#dialog_new").dialog("open");
+    });
+
+
+    $("#dialog_ylj").dialog({autoOpen: false});
+    $("#dialog_ylj").dialog("option", "width", 600);
+    $("#opener_ylj").click(function () {
+        $("#dialog_ylj").removeClass("myhidden");
+        $("#dialog_ylj").dialog("open");
+    });
+
+
+    $("#dialog_testcase").dialog({autoOpen: false});
+    $("#dialog_testcase").dialog("option", "width", 600);
+    $("#opener_testcase").click(function () {
+        $("#dialog_testcase").removeClass("myhidden");
+        $("#dialog_testcase").dialog("open");
+    });
+
+    $("#dialog_testsuit").dialog({autoOpen: false});
+    $("#dialog_testsuit").dialog("option", "width", 600);
+    $("#opener_testsuit").click(function () {
+        $("#dialog_testsuit").removeClass("myhidden");
+        $("#dialog_testsuit").dialog("open");
+    });
+
+    $("#dialog_runtest").dialog({autoOpen: false});
+    $("#dialog_runtest").dialog("option", "width", 600);
+    $("#opener_runtest").click(function () {
+        $("#dialog_runtest").removeClass("myhidden");
+        $("#dialog_runtest").dialog("open");
+    });
+
+
+    {#    function setCookie(name, value) {#}
+    {#        var Days = 3000;#}
+    {#        var exp = new Date();#}
+    {#        exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);#}
+    {#        document.cookie = name + "=" + value + ";expires=" + exp.toGMTString();#}
+    {#    }#}
+    {##}
+    {#    function getCookie(name) {#}
+    {#        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");#}
+    {#        if (arr = document.cookie.match(reg))#}
+    {#            return arr[2];#}
+    {#        else#}
+    {#            return null;#}
+    {#    };#}
+
+    function csrfSafeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    };
+
+    {#    var csrftoken = getCookie('csrftoken');#}
+    var csrftoken = $.cookie('csrftoken');
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    function newProject() {
+        var row = {"name": $("#name").val(), "desc": $("#desc").val()};
+        $.post("new_project", row).done(function (data) {
+            if (data != "error") {
+                alert(data);
+                window.location.reload();
+            }
+            ;
+        });
+    };
+
+    {#    setCookie("project", $("#select").val());#}
+
+
+    $("#select").change(function () {
+        {#        setCookie("project", $("#select").val());#}
+        $.cookie('project', $("#select").val(), {expires: 7, path: '/'});
+        window.location.reload();
+    });
+
+    $.post("/getparentlevel", {"level": 4}).done(function (data) {
+        var leveldata = $.parseJSON(data);
+        for (var i = 0; i < leveldata.length; i++) {
+
+            $("#tree").append("<option value='" + leveldata[i]["id"] + "'>" + leveldata[i]["name"] + "</option>");
+            {#            $("#testsuit_case").append("<option value='" + leveldata[i]["id"] + "'>" + leveldata[i]["name"] + "</option>");#}
+
+        }
+    });
+
+    $.post("/getLevel3", {"a": ""}).done(function (data) {
+        var leveldata = $.parseJSON(data);
+        for (var i = 0; i < leveldata.length; i++) {
+
+            {#            $("#tree").append("<option value='" + leveldata[i]["id"] + "'>" + leveldata[i]["name"] + "</option>");#}
+            $("#testsuit_case").append("<option value='" + leveldata[i]["id"] + "'>" + leveldata[i]["name"] + "</option>");
+
+        }
+    });
+
+
+    $.get("/responsible_list").done(function (data) {
+        var responsible_list = $.parseJSON(data);
+        for (var i = 0; i < responsible_list.length; i++) {
+
+            $("#responsible").append("<option value='" + responsible_list[i]["id"] + "'>" + responsible_list[i]["name"] + "</option>");
+
+        }
+    });
+
+    function getlevel() {
+        var level = $("#level").val();
+        if (level !== 999) {
+            var row = {"level": level};
+            $.post("/getparentlevel", row).done(function (data) {
+                var leveldata = $.parseJSON(data);
+                $("#parent").empty();
+                for (var i = 0; i < leveldata.length; i++) {
+
+                    $("#parent").append("<option value='" + leveldata[i]["id"] + "'>" + leveldata[i]["name"] + "</option>");
+
+                }
+            });
+        }
+    };
+
+    function newylj() {
+        var name = $("#name1").val();
+        {#        var key = $("#key").val();#}
+        var parent = $("#parent").val();
+        var level = $("#level").val();
+
+        var row = {"level": level, "name": name, "parent": parent};
+        $.post("/newylj", row).done(function (data) {
+            alert(data);
+            window.location.reload();
+        });
+
+    }
+
+    {# 新建测试    #}
+
+    function newtestcase() {
+        var name = $("#name2").val();
+        var tree = $("#tree").val();
+        var tags = $("#tags").val();
+        var responsible = $("#responsible").val();
+
+        var row = {"name": name, "tree": tree, "tags": tags, "responsible": responsible};
+        $.post("/newtestcase", row).done(function (data) {
+            alert(data);
+            window.location.reload();
+        });
+
+
+    };
+    {#测试用例    #}
+
+    function runtestsuit() {
+        {#        var testsuit_name = $("#testsuit_name").val();#}
+        var testsuit_case = $("#testsuit_case").val();
+
+        {#        setCookie("testsuit_name",testsuit_name);#}
+        {#        setCookie("testsuitcase",testsuit_case);#}
+        {#        setCookie("testsuittime",(new Date()).toString());#}
+        {#        #}
+
+        $.cookie('testsuitcase', testsuit_case, {expires: 7, path: '/'});
+        $.cookie('testsuittime', (new Date()).toString(), {expires: 7, path: '/'});
+
+        window.location.replace("/base_addstep/" + testsuit_case);
+
+        {#        var row = {"name": testsuit_name, "case": testsuit_case};#}
+        {#        $.post("/runtestsuit", row).done(function (data) {#}
+        {#            alert(data);#}
+        {#            window.location.reload();#}
+        {#        });#}
+
+    }
+
+    function formatJson(s) {
+        while (s.indexOf("'") > 0) {
+            s = s.replace("'", "\"")
+        }
+        ;
+        try {
+            return $.parseJSON(s)
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function runsuit() {
+        var tid = "{{ tid }}";
+        if (!tid.length) {
+            alert("请点击测试用例，选择一个用例");
+        }
+        ;
+
+        var trList = $("#table_list").children("tr");
+
+        var start_time = (new Date());
+
+        var passednum = 0;
+        var failnum = 0;
+
+        for (var i = 0; i < trList.length; i++) {
+            console.log(i);
+            var tdArr = trList.eq(i).find("td");
+
+            var step_id = tdArr.eq(0).text();
+            var step_name = tdArr.eq(1).text();
+            var api_name = tdArr.eq(2).text();
+            var req_type = tdArr.eq(3).text();
+            var req_parm = tdArr.eq(4).text();
+            var req_exper = tdArr.eq(5).text();
+            var req_path = tdArr.eq(6).text();
+            {# 发送请求   通过step id查找  修改接口状态        #}
+
+
+            var row = formatJson(req_parm);
+            $.ajax({
+                url: req_path,
+                type: req_type,
+                data: row,
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    var kk = 1;
+                    var fj = formatJson(req_exper);
+                    $.each(fj, function (name, value) {
+
+                        console.log(api_name + " " + (data[name] === value).toString());
+                        if (data[name] !== value) {
+                            kk = -1;
+                        }
+                    });
+                    if (kk) {
+                        passednum += 1;
+                        {#  修改当前接口状态      成功             #}
+
+                        var row = {"sid": step_id, "status": "已执行-成功"};
+                        $.post("/updateStatus", row).done(function (data) {
+                            alert(data);
+{#                            window.location.reload();#}
+                        });
+
+                    } else {
+                        failnum += 1;
+                        {#  修改当前接口状态       失败                #}
+
+                        var row = {"sid": step_id, "status": "已执行-失败"};
+                        $.post("/updateStatus", row).done(function (data) {
+{#                            alert(data);#}
+{#                            window.location.reload();#}
+                        });
+                    }
+
+
+                }, error: function (xhr) {
+                    failnum += 1;
+                    console.log(xhr.status);
+
+                     var row = {"sid": step_id, "status": "已执行-失败"};
+                    $.post("/updateStatus", row).done(function (data) {
+{#                        alert(data);#}
+{#                            window.location.reload();#}
+                    });
+
+                }
+            });
+        }
+
+        var end_time = (new Date());
+
+        var row = {
+            "name": $("#name3").val(),
+            "start_time": start_time,
+            "end_time": end_time,
+            "tid": tid,
+            "passednum": passednum,
+            "skippednum": 0,
+            "failednum": failnum
+        };
+        $.post("/runtestsuit", row).done(function (data) {
+{#            alert(data);#}
+            window.location.replace("/showtestsuit/"+data.toString());
+        });
+
+
+    }
+
+    function dealulfun(obj) {
+
+{#        $(this).next("li").animate({height: 'toggle', opacity: 'toggle'}, "slow");#}
+
+{#        alert(obj.childNodes[0].className);#}
+
+{#        if(obj.children[0].children[0].children[0].className.indexOf("myhidden1") > 0){#}
+{#            obj.children[0].children[0].children[0].className  = " ";#}
+{#        } else{#}
+{#            obj.children[0].children[0].children[0].className = " myhidden1";#}
+{#        }#}
+
+
+
+{#        alert(obj.children[0].children[0].children[0].children[0].className );#}
+{#        obj.children[0].children[0].children[0].className = "myhidden1";#}
+{#        this.children.setAttribute('class','myhidden');#}
+{#        $("#dialog_new").removeClass("myhidden");#}
+    }
+
+    $(".ulbtn").click(function () {
+        $(this).next().toggle( "explode", 300 );
+    });
+
+
+    function runsingletest(t) {
+       var step_id  = $('.'+t + '> td').eq(0).html();
+       var api_name = $('.'+t + '> td').eq(1).html();
+       var step_api = $('.'+t + '> td').eq(2).html();
+       var req_type = $('.'+t + '> td').eq(3).html();
+       var req_parm = $('.'+t + '> td').eq(4).html();
+       var req_exper = $('.'+t + '> td').eq(5).html();
+       var req_path = $('.'+t + '> td').eq(6).html();
+
+
+
+{#        var step_name = tdArr.eq(1).text();#}
+{#            var api_name = tdArr.eq(2).text();#}
+{#            var req_type = tdArr.eq(3).text();#}
+{#            var req_parm = tdArr.eq(4).text();#}
+{#            var req_exper = tdArr.eq(5).text();#}
+{#            var req_path = tdArr.eq(6).text();#}
+
+{#       alert(step_addr);#}
+
+
+       var row = formatJson(req_parm);
+            $.ajax({
+                url: req_path,
+                type: req_type,
+                data: row,
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    var kk = 1;
+                    var fj = formatJson(req_exper);
+                    $.each(fj, function (name, value) {
+                        console.log(api_name + " " + (data[name] === value).toString());
+                        if (data[name] !== value) {
+                            kk = -1;
+                        }
+                    });
+                    if (kk) {
+                        {#  修改当前接口状态      成功             #}
+                        var row = {"sid": step_id, "status": "已执行-成功"};
+                        $.post("/updateStatus", row).done(function (data1) {
+                            alert("已执行-成功 " );
+{#                            window.location.reload();#}
+                        });
+
+                    } else {
+                        {#  修改当前接口状态       失败                #}
+                        var row = {"sid": step_id, "status": "已执行-失败"};
+                        $.post("/updateStatus", row).done(function (data1) {
+                            alert("已执行-失败" );
+{#                            window.location.reload();#}
+                        });
+                    }
+                }, error: function (xhr) {
+                    console.log(xhr.status);
+                    var row = {"sid": step_id, "status": "已执行-失败"};
+                    $.post("/updateStatus", row).done(function (data1) {
+                        alert("已执行-失败" );
+{#                            window.location.reload();#}
+                    });
+
+                }
+            });
+
+
+    }
+
+</script>

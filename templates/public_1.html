@@ -1,0 +1,113 @@
+{% load static %}
+
+<style>
+    .ullist > ul{
+        width: 200px;
+    }
+
+</style>
+
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">API管理系统</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
+            aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample02">
+        <ul class="navbar-nav mr-auto">
+
+        </ul>
+        <form class="form-inline my-2 my-md-0">
+            <input class="form-control" type="text" placeholder="Search">
+        </form>
+
+        <a class="btn btn-danger" href="/logout_view">退出</a>
+    </div>
+</nav>
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="btn-group col-2">
+            <select class="btn-dark" id="select" style="width: 100%">
+                {% for k in projectlist %}
+                    <option value="{{ k }}">{{ k }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        <div class="col">
+            <button class="btn btn-dark" id="opener_new">新建项目</button>
+            <button class="btn btn-dark" id="opener_testsuit">测试用例</button>
+            <button class="btn btn-dark" id="opener_runtest" >测试执行</button>
+        </div>
+
+
+    </div>
+
+    <hr>
+
+    <div class="row" style="margin-top: 10px">
+
+        <div class="col-2">
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-dark" id="opener_ylj">新建测试集</button>
+                </div>
+
+                <div class="col">
+                    <button class="btn btn-dark" id="opener_testcase">新建测试</button>
+                </div>
+            </div>
+            <div class="row ullist" >
+                {% for d1 in dirlist %}
+                    <ul class="" >
+                        <li>
+                            <button class="ulbtn">{{ d1.name }}</button>
+                            <ul class="dealul" onclick="dealulfun(this)" >
+                                {% for d2 in d1.value %}
+                                    <li>
+                                        <button class="ulbtn">{{ d2.name }}</button>
+                                        <ul class="dealul" >
+                                            {% for d3 in d2.value %}
+                                                <li><a href="/base_addstep/{{ d3.testcaseid }}">{{ d3.value }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                {% endfor %}
+            </div>
+
+
+        </div>
+
+        <div class="col">
+            <div class="row align-items-start">
+                <div class="col">
+                    <a href="/base_addstep/-1/">基本信息</a>
+                </div>
+
+                <div class="col">
+                    <a href="/api_ctrl">接口管理</a>
+                </div>
+                <div class="col">
+                    <a href="/variable">资源配置</a>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <h8>当前位置：
+                        {% for d in mydir %}
+                            <a href="{{ d.path }}">{{ d.name }}</a> {% if not forloop.last%}>{% endif %}
+                        {% endfor %}
+                    </h8>
+                </div>
+            </div>
+            <hr>

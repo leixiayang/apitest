@@ -1,0 +1,727 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "public_3.html" %}
+</head>
+<body>
+<input id="aid" value="{{ aid }}" hidden>
+{% include "public_1.html" %}
+
+<div class="row">
+    <div class="col">
+        <h6>接口详情</h6>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+
+    <form class="col" method="post" action="/api_update">
+        {% csrf_token %}
+        <div class="row">
+
+            <input type="text" value="{{ apidatail.id }}" name="id" hidden>
+
+            <div class="col">
+                状态：<input type="text" value="{{ apidatail.status }}" name="status" disabled="disabled" >
+            </div>
+        </div>
+        <hr>
+
+        {#            <div class="row">#}
+        {#                <div class="col">#}
+        {#                    标签：<input type="text" value="无">#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <hr>#}
+
+        <div class="row">
+            <div class="col">
+                描述：<input type="text" value="{{ apidatail.desc }}" name="desc" disabled="disabled" >
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col-2">
+                        请求类型:
+                    </div>
+                    <div class="col">
+                        <select class="btn-dark" name="request_type">
+                            <option value="{{ apidatail.request_type }}">{{ apidatail.request_type }}</option>
+                            <option selected value="GET">GET</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
+                            <option value="DELETE">DELETE</option>
+                            <option value="HEAD">HEAD</option>
+                            <option value="PATCH">PATCH</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                名称：<input type="text" value="{{ apidatail.name }}" name="name" disabled="disabled" >
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col-2">
+                        协议类型:
+                    </div>
+                    <div class="col">
+                        <select class="btn-dark" name="protocol_type">
+                            <option value="{{ apidatail.protocol_type }}">{{ apidatail.protocol_type }}</option>
+                            <option value="HTTP">HTTP</option>
+                            <option value="HTTPS">HTTPS</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                URL：<input type="text" value="{{ apidatail.path }}" name="path">
+            </div>
+            <div class="col">
+                期望值：<input type="text" value="{{ apidatail.expectres }}" name="expectres">
+            </div>
+        </div>
+
+        <hr>
+
+
+        <div class="row">
+            <div class="col">
+                <input type="submit" value="保存" class="btn btn-dark btn-block">
+            </div>
+        </div>
+    </form>
+
+
+</div>
+
+
+<hr>
+
+<div class="row">
+    <div class="col">
+        <ul id="myTab" class="nav nav-tabs">
+            <li class=" list-group-item ">
+                <a href="#request" data-toggle="tab">
+                    请求信息
+                </a>
+            </li>
+            <li class="list-group-item ">
+                <a href="#response" data-toggle="tab">
+                    响应信息
+                </a>
+            </li>
+            <li class="list-group-item ">
+                <a href="#ctrl" data-toggle="tab">
+                    用例管理
+                </a>
+            </li>
+            <li class="list-group-item ">
+                <a href="#hist" data-toggle="tab">
+                    操作历史
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div id="myTabContent" class="tab-content col">
+        {# 请求       #}
+        <div class="tab-pane fade in col" id="request">
+            <hr>
+            <div class="row" style="background: black;color: white">
+                <div class="col">
+                    <h6>请求地址：</h6>
+                </div>
+                <div class="col">
+                    <h6> {{ apidatail.request_type }} </h6>
+                </div>
+                <div class="col">
+                    <h6>{{ apidatail.path }} </h6>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-1">
+                    <h4>header</h4>
+                </div>
+                <div class="col">
+                    <button class="btn btn-dark" id="opener_request_header">+</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row" style="height: 200px;overflow-y: scroll;">
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">名称</th>
+                        <th scope="col">值</th>
+                        <th scope="col">描述</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for h in req_header %}
+                        <tr>
+                            <th scope="row">{{ h.id }}</th>
+                            <td>{{ h.name }}</td>
+                            <td>{{ h.value }}</td>
+                            <td>{{ h.desc }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-1"><h4>body</h4></div>
+                <div class="col">
+                    <button class="btn btn-dark" id="opener_request_body">+</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row" style="height: 200px;overflow-y: scroll;">
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">名称</th>
+                        <th scope="col">类型</th>
+                        <th scope="col">默认值</th>
+                        {#                        <th scope="col">生成规则</th>#}
+                        <th scope="col">描述</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for y in req_body %}
+                        <tr>
+                            <th scope="row">{{ y.id }}</th>
+                            <td>{{ y.name }}</td>
+                            <td>{{ y.type }}</td>
+                            <td>{{ y.value }}</td>
+                            <td>{{ y.desc }}</td>
+                            {#                            <td>@mdo</td>#}
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        {# 请求       #}
+
+
+        {# 响应       #}
+        <div class="tab-pane fade col" id="response">
+            <hr>
+            <div class="row">
+                <div class="col-1">
+                    <h4>heder</h4>
+                </div>
+                <div class="col">
+                    <button class="btn btn-dark" id="opener_respon_header">+</button>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">名称</th>
+                        <th scope="col">值</th>
+                        <th scope="col">描述</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for s in res_header %}
+                        <tr>
+                            <th scope="row">{{ s.id }}</th>
+                            <td>{{ s.name }}</td>
+                            <td>{{ s.value }}</td>
+                            <td>{{ s.desc }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+            <hr>
+
+
+            <div class="row">
+                <div class="col-1"><h4>result</h4></div>
+                <div class="col">
+                    <button class="btn btn-dark" id="opener_respon_body">+</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">名称</th>
+                        <th scope="col">类型</th>
+                        <th scope="col">默认值</th>
+                        {#                        <th scope="col">生成规则</th>#}
+                        <th scope="col">描述</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for s in res_body %}
+
+                        <tr>
+
+                            <th scope="row">{{ s.id }}</th>
+                            <td>{{ s.name }}</td>
+                            <td>{{ s.type }}</td>
+                            <td>{{ s.value }}</td>
+                            <td>{{ s.desc }}</td>
+                            {#                            <td>@mdo</td>#}
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+        {# 响应       #}
+
+
+        <div class="tab-pane fade col" id="ctrl">
+            <div class="col">
+                <p>ctrl</p>
+            </div>
+        </div>
+        <div class="tab-pane fade col" id="hist">
+            <div class="col">
+                <p>hist</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "public_2.html" %}
+
+<div id="dialog_request_header" title="增加请求头窗口" class="myhidden">
+
+    <div class="row">
+        <div class="col">
+            <h6>名称</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="name_request_header" id="name_request">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h6>值</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="value_request" id="value_request">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h6>描述</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="desc_request" id="desc_request">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h6>类型</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="type_req" id="type_req">
+        </div>
+    </div>
+
+    {#    <div class="row">#}
+    {#        <div class="col">#}
+    {#            <h6>请求头类型</h6>#}
+    {#        </div>#}
+    {#        <div class="col">#}
+    {#            <input type="text" name="type_req_header" id="type_req_header">#}
+    {#        </div>#}
+    {#    </div>#}
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-dark btn-block" onclick="add_req_header()">确定</button>
+        </div>
+    </div>
+</div>
+
+<div id="dialog_request_body" title="增加请求数据窗口" class="myhidden">
+
+    <div class="row">
+        <div class="col">
+            <h6>名称</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="name_request_body" id="name_request_body">
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h6>类型</h6>
+        </div>
+        <div class="col">
+            <select type="text" name="req_type" id="req_type" class="btn btn-dark">
+                <option value="GlobalVar">GlobalVar</option>
+                <option value="Boolean">Boolean</option>
+                <option value="File">File</option>
+                <option value="Int">Int</option>
+                <option value="Long">Long</option>
+                <option value="String">String</option>
+                <option value="Text">Text</option>
+                <option value="Encryption">Encryption</option>
+            </select>
+
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h6>值</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="req_body_val" id="req_body_val">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h6>body_format</h6>
+        </div>
+        <div class="col">
+            <select name="req_body_format" id="req_body_format" class="btn btn-dark">
+                <option value="3">格式化</option>
+                <option value="4">原始</option>
+            </select>
+        </div>
+    </div>
+
+    {#    <div class="row">#}
+    {#        <div class="col">#}
+    {#            <h6>body_type</h6>#}
+    {#        </div>#}
+    {#        <div class="col">#}
+    {#            <input type="text" name="req_body_type" id="req_body_type" >#}
+    {#        </div>#}
+    {#    </div>#}
+
+    {#    <div class="row">#}
+    {#        <div class="col">#}
+    {#            <h6>默认值</h6>#}
+    {#        </div>#}
+    {#        <div class="col">#}
+    {#            <input type="text" name="req_default" id="req_default">#}
+    {#        </div>#}
+    {#    </div>#}
+
+    {#    <div class="row">#}
+    {#        <div class="col">#}
+    {#            <h6>生成规则</h6>#}
+    {#        </div>#}
+    {#        <div class="col">#}
+    {#            <input type="text" name="req_rule" id="req_rule">#}
+    {#        </div>#}
+    {#    </div>#}
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h6>描述</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="req_desc" id="req_desc">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-dark btn-block" onclick="add_req_body()">确定</button>
+        </div>
+    </div>
+</div>
+
+
+<div id="dialog_respon_header" title="增加响应头窗口" class="myhidden">
+
+    <div class="row">
+        <div class="col">
+            <h6>名称</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="name_respon_header" id="name_respon_header">
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h6>值</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="value_respon" id="value_respon">
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h6>描述</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="desc_respon" id="desc_respon">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-dark btn-block" onclick="add_res_header()">确定</button>
+        </div>
+    </div>
+</div>
+
+<div id="dialog_respon_body" title="增加响应数据窗口" class="myhidden">
+
+    <div class="row">
+        <div class="col">
+            <h6>名称</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="name_respon_body" id="name_respon_body">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h6>类型</h6>
+        </div>
+        <div class="col">
+            {#            <input type="text" name="respon_type" id="respon_type">#}
+            <select type="text" name="respon_type" id="respon_type" class="btn btn-dark">
+                <option value="GlobalVar">GlobalVar</option>
+                <option value="Boolean">Boolean</option>
+                <option value="File">File</option>
+                <option value="Int">Int</option>
+                <option value="Long">Long</option>
+                <option value="String">String</option>
+                <option value="Text">Text</option>
+                <option value="Encryption">Encryption</option>
+            </select>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h6>body_format</h6>
+        </div>
+        <div class="col">
+            <select name="res_body_format" id="res_body_format" class="btn btn-dark">
+                <option value="3">格式化</option>
+                <option value="4">原始</option>
+            </select>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h6>默认值</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="respon_default" id="respon_default">
+        </div>
+    </div>
+
+    {#    <div class="row">#}
+    {#        <div class="col">#}
+    {#            <h6>生成规则</h6>#}
+    {#        </div>#}
+    {#        <div class="col">#}
+    {#            <input type="text" name="respon_rule" id="respon_rule">#}
+    {#        </div>#}
+    {#    </div>#}
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <h6>描述</h6>
+        </div>
+        <div class="col">
+            <input type="text" name="respon_desc" id="respon_desc">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-dark btn-block" onclick="add_res_body()">确定</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#dialog_request_header").dialog({autoOpen: false});
+    $("#dialog_request_header").dialog("option", "width", 600);
+    $("#opener_request_header").click(function () {
+        $("#dialog_request_header").removeClass("myhidden");
+        $("#dialog_request_header").dialog("open");
+    });
+
+    $("#dialog_request_body").dialog({autoOpen: false});
+    $("#dialog_request_body").dialog("option", "width", 600);
+    $("#opener_request_body").click(function () {
+        $("#dialog_request_body").removeClass("myhidden");
+        $("#dialog_request_body").dialog("open");
+    });
+
+    $("#dialog_respon_header").dialog({autoOpen: false});
+    $("#dialog_respon_header").dialog("option", "width", 600);
+    $("#opener_respon_header").click(function () {
+        $("#dialog_respon_header").removeClass("myhidden");
+        $("#dialog_respon_header").dialog("open");
+    });
+
+
+    $("#dialog_respon_body").dialog({autoOpen: false});
+    $("#dialog_respon_body").dialog("option", "width", 600);
+    $("#opener_respon_body").click(function () {
+        $("#dialog_respon_body").removeClass("myhidden");
+        $("#dialog_respon_body").dialog("open");
+    });
+
+    function add_req_header() {
+        {# 0:请求头  1:响应头       #}
+        var row = {
+            "name": $("#name_request").val(),
+            "value": $("#value_request").val(),
+            "desc": $("#desc_request").val(),
+            "type": $("#type_req").val(),
+            "headertype": 0,
+            "aid": $("#aid").val()
+        };
+        $.post("/new_its_req_header", row).done(function (data) {
+            if (data != "error") {
+                alert(data);
+                window.location.reload();
+            }
+            ;
+        });
+    }
+
+    function add_req_body() {
+        {# 0:请求体  1:响应体     #}
+        var row = {
+            "name": $("#name_request_body").val(),
+            "value": $("#req_body_val").val(),
+            "desc": $("#req_desc").val(),
+            "type": $("#req_type").val(),
+            "aid": $("#aid").val(),
+            "req_body_format": $("#req_body_format").val(),
+            "req_body_type": 0
+        };
+        $.post("/new_its_req_body", row).done(function (data) {
+            if (data != "error") {
+                alert(data);
+                window.location.reload();
+
+            }
+            ;
+        });
+    };
+
+    function add_res_header() {
+        {# 0:请求头  1:响应头       #}
+        var row = {
+            "name": $("#name_respon_header").val(),
+            "value": $("#value_respon").val(),
+            "desc": $("#desc_respon").val(),
+            "headertype": 1,
+            "aid": $("#aid").val()
+        };
+        $.post("/new_its_res_header", row).done(function (data) {
+            if (data != "error") {
+                alert(data);
+                window.location.reload();
+            }
+            ;
+        });
+    }
+
+    function add_res_body() {
+        {# 0:请求体  1:响应体     #}
+        var row = {
+            "name": $("#name_respon_body").val(),
+            "value": $("#respon_default").val(),
+            "desc": $("#respon_desc").val(),
+            "type": $("#respon_type").val(),
+            "aid": $("#aid").val(),
+            "req_body_format": $("#res_body_format").val(),
+            "req_body_type": 1
+        };
+        $.post("/new_its_res_body", row).done(function (data) {
+            if (data != "error") {
+                alert(data);
+                window.location.reload();
+
+            }
+            ;
+        });
+    }
+
+</script>
+
+</body>
+</html>

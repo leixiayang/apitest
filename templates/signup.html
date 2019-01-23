@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "public_3.html" %}
+</head>
+<body>
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">API管理系统</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
+            aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <h5>sign up</h5>
+        </div>
+        <div class="col"></div>
+    </div>
+    <hr>
+
+    <form class="row" action="signup" method="post">
+        {% csrf_token %}
+        <div class="col">
+
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2"><h6>username</h6></div>
+                <div class="col"><input name="username"></div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2"><h6>password</h6></div>
+                <div class="col"><input name="password"></div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2"><h6>password again</h6></div>
+                <div class="col"><input name="password_"></div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2"><h6>Email</h6></div>
+                <div class="col"><input name="email"></div>
+            </div>
+
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2">提示</div>
+                <div class="col">{{ ts }} </div>
+            </div>
+
+            <hr>
+
+
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2"><a class="btn btn-dark" href="login" style="color: white">登录</a></div>
+                <div class="col"><input type="submit" class="btn btn-dark" value="注册"></div>
+            </div>
+        </div>
+    </form>
+
+
+
+
+
+</div>
+
+
+</body>
+</html>
